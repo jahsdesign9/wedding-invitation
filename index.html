@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V & A Wedding Invitation</title>
-
     <meta property="og:title" content="You're Invited to Our Wedding! 💌" />
     <meta property="og:description" content="V & A • Save the Date • Click to open our digital invitation." />
     <meta property="og:image" content="https://vergel-and-apple.github.io/wedding-invitation/envelope-preview.jpg" />
     <meta property="og:type" content="website" />
-
     <style>
         /* Reset and canvas setup */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,7 +19,6 @@
             background-color: #4A0E17; /* Solid maroon backdrop */
             font-family: sans-serif; 
         }
-
         /* Container that centers the envelope beautifully on any phone screen */
         .wrapper {
             position: absolute;
@@ -32,18 +29,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1200px; /* Enhanced depth perspective for a bigger envelope */
+            perspective: 1000px; /* Essential for the 3D flap rotation depth */
         }
-
         /* The Envelope Container */
         .envelope {
             position: relative;
-            width: 96vw; /* Fills almost edge-to-edge on phones */
-            max-width: 500px; /* Larger on tablet/desktop */
+            width: 85vw;
+            max-width: 400px;
             aspect-ratio: 1 / 1; /* Keeps it square */
             cursor: pointer;
         }
-
         /* Base properties for the layers */
         .layer {
             position: absolute;
@@ -53,13 +48,11 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-
         /* 1. Main Pocket / Base */
         .envelope-back {
             background-image: url('envelope-back.png');
             z-index: 10;
         }
-
         /* 2. The Flap (Hinges and flips upward) */
         .envelope-flap {
             background-image: url('envelope-flap.png');
@@ -67,27 +60,23 @@
             transform-origin: top center; /* Forces the flap to fold right from its top edge */
             transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Premium unfolding curve */
         }
-
-        /* 3. The Gold Wax Seal - SHIFTED DOWN TO THE FLAP TIP HERE */
+        /* 3. The Gold Wax Seal */
         .wax-seal {
             background-image: url('wax-seal.png');
             z-index: 40;
             width: 25%; /* Automatically sizes the seal relative to your envelope */
             height: 25%;
-            top: 61%; /* Shifted down from 50% to align perfectly with the bottom point of the flap */
+            top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1); /* Holds it dead center over the flap point */
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
-
         /* --- THE ANIMATION STATES (Toggled via click) --- */
-
         /* State when open: The flap flips up and back by 180 degrees */
         .envelope.open .envelope-flap {
             transform: rotateX(180deg);
             z-index: 5; /* Drags it behind the pocket once fully opened */
         }
-
         /* State when open: The seal breaks, scales down slightly, and vanishes */
         .envelope.open .wax-seal {
             opacity: 0;
@@ -97,7 +86,6 @@
     </style>
 </head>
 <body>
-
     <div class="wrapper">
         <div class="envelope" id="weddingEnvelope" onclick="openEnvelope()">
             <div class="layer envelope-back"></div>
@@ -105,13 +93,11 @@
             <div class="layer wax-seal"></div>
         </div>
     </div>
-
     <script>
         function openEnvelope() {
             const envelope = document.getElementById('weddingEnvelope');
             envelope.classList.add('open');
         }
     </script>
-
 </body>
 </html>
