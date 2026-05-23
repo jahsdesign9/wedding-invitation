@@ -9,80 +9,139 @@
     <meta property="og:image" content="https://vergel-and-apple.github.io/wedding-invitation/envelope-preview.jpg" />
     <meta property="og:type" content="website" />
     <style>
-        /* Reset and canvas setup */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body, html { 
-            width: 100%; 
-            height: 100%; 
-            overflow: hidden; 
-            background-color: #4A0E17; /* Solid maroon backdrop */
-            font-family: sans-serif; 
+        /* ── Hide Wix banner (CSS layer) ── */
+        #WIX_ADS, #wix-ads,
+        .wixads-mobile-indicator,
+        [id^="WIX_ADS"],
+        [class*="wix-ads"],
+        iframe[src*="wix.com/ads"],
+        iframe[src*="static.parastorage.com"],
+        div[data-testid="wix-ads"] {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            pointer-events: none !important;
         }
-        /* Container that centers the envelope beautifully on any phone screen */
-        .wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        /* ── Reset ── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
             width: 100%;
             height: 100%;
+            overflow: hidden;
+            background: transparent;   /* fully transparent — Wix page bg shows through */
+            font-family: sans-serif;
+        }
+
+        /* ── Center ── */
+        .wrapper {
+            position: fixed;
+            inset: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px; /* Essential for the 3D flap rotation depth */
+            perspective: 1200px;
+            background: transparent;
         }
-        /* The Envelope Container */
+
+        /* ── Envelope — SQUARE (matches your actual image files) ── */
         .envelope {
             position: relative;
-            width: 85vw;
-            max-width: 400px;
-            aspect-ratio: 1 / 1; /* Keeps it square */
+            width: min(92vw, 500px);   /* bigger than before */
+            aspect-ratio: 1 / 1;       /* square — matches your PNGs */
             cursor: pointer;
+            filter: drop-shadow(0 22px 55px rgba(0,0,0,0.50));
+            transition: filter 0.3s ease;
         }
-        /* Base properties for the layers */
+        .envelope:hover {
+            filter: drop-shadow(0 30px 65px rgba(0,0,0,0.60));
+        }
+
+        /* ── Shared layer base ── */
         .layer {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
         }
-        /* 1. Main Pocket / Base */
+
+        /* ── 1. Main pocket / body ── */
         .envelope-back {
             background-image: url('envelope-back.png');
             z-index: 10;
         }
-        /* 2. The Flap (Hinges and flips upward) */
+
+        /* ── 2. Flap — hinge at the TOP edge, flips backward ── */
         .envelope-flap {
             background-image: url('envelope-flap.png');
             z-index: 30;
-            transform-origin: top center; /* Forces the flap to fold right from its top edge */
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Premium unfolding curve */
+            transform-origin: top center;
+            transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* 3. The Gold Wax Seal */
+
+        /* ── 3. Wax seal — sits at the TOP-CENTER (flap tip) ── */
         .wax-seal {
             background-image: url('wax-seal.png');
             z-index: 40;
-            width: 25%; /* Automatically sizes the seal relative to your envelope */
-            height: 25%;
-            top: 50%;
+
+            /* Size: 18% of envelope width looks right for a tip seal */
+            width: 18%;
+            aspect-ratio: 1;
+            height: auto;
+
+            /* Override .layer inset so we can position freely */
+            inset: unset;
+            position: absolute;
+
+            /* Top-center: ~10% from top, horizontally centred */
+            top: 10%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1); /* Holds it dead center over the flap point */
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: translateX(-50%) scale(1);
+            transition: opacity 0.45s ease 0.15s,
+                        transform 0.45s ease 0.15s;
         }
-        /* --- THE ANIMATION STATES (Toggled via click) --- */
-        /* State when open: The flap flips up and back by 180 degrees */
+
+        /* ── Gentle gold pulse while closed ── */
+        @keyframes seal-pulse {
+            0%, 100% { filter: drop-shadow(0 0  0px rgba(218,180,80,0));   }
+            50%       { filter: drop-shadow(0 0 14px rgba(218,180,80,0.75)); }
+        }
+        .envelope:not(.open) .wax-seal {
+            animation: seal-pulse 2.4s ease-in-out infinite;
+        }
+
+        /* ── OPEN: flap flips 180° behind the pocket ── */
         .envelope.open .envelope-flap {
             transform: rotateX(180deg);
-            z-index: 5; /* Drags it behind the pocket once fully opened */
+            z-index: 5;
         }
-        /* State when open: The seal breaks, scales down slightly, and vanishes */
+
+        /* ── OPEN: seal breaks apart and vanishes ── */
         .envelope.open .wax-seal {
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
-            pointer-events: none; /* Disables accidental double clicks */
+            transform: translateX(-50%) scale(0.7) rotate(18deg);
+            pointer-events: none;
         }
+
+        /* ── "Tap to open" hint ── */
+        .hint {
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.65);
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .envelope.open .hint { opacity: 0; }
     </style>
 </head>
 <body>
@@ -91,13 +150,34 @@
             <div class="layer envelope-back"></div>
             <div class="layer envelope-flap"></div>
             <div class="layer wax-seal"></div>
+            <span class="hint">Tap to open</span>
         </div>
     </div>
+
     <script>
         function openEnvelope() {
-            const envelope = document.getElementById('weddingEnvelope');
-            envelope.classList.add('open');
+            document.getElementById('weddingEnvelope').classList.add('open');
         }
+
+        /* ── Kill Wix banner dynamically (it injects AFTER page load) ── */
+        const wixTargets = [
+            '#WIX_ADS','#wix-ads','.wixads-mobile-indicator',
+            'iframe[src*="static.parastorage.com"]',
+            'iframe[src*="wix.com/ads"]'
+        ];
+        function nukeWixAds() {
+            wixTargets.forEach(sel =>
+                document.querySelectorAll(sel).forEach(el => {
+                    el.style.cssText =
+                        'display:none!important;visibility:hidden!important;' +
+                        'height:0!important;max-height:0!important;' +
+                        'overflow:hidden!important;pointer-events:none!important;';
+                })
+            );
+        }
+        nukeWixAds();
+        new MutationObserver(nukeWixAds)
+            .observe(document.documentElement, { childList: true, subtree: true });
     </script>
 </body>
 </html>
