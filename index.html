@@ -7,112 +7,16 @@
 
     <meta property="og:title" content="You're Invited to Our Wedding! 💌" />
     <meta property="og:description" content="V & A • Save the Date • Click to open our digital invitation." />
-    <meta property="og:image" content="https://vergel-and-apple.github.io/wedding-invitation/envelope-preview.jpg" />
+    <meta property="og:image" content="https://images.wixmp.com/" />
     <meta property="og:type" content="website" />
 
     <style>
-        /* Reset and canvas setup */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        /* Using a solid maroon canvas color until you add your background video */
-        body, html { 
-            width: 100%; 
-            height: 100%; 
-            overflow: hidden; 
-            background-color: #4A0E17; 
-            font-family: sans-serif; 
-        }
-
-        /* Container that centers the envelope on any screen size */
-        .wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1000px; /* Gives the flap flip a beautiful 3D depth effect */
-        }
-
-        /* The Envelope Container */
-        .envelope {
-            position: relative;
-            width: 85vw;
-            max-width: 400px;
-            aspect-ratio: 1 / 1; /* Keeps it perfectly square like your assets */
-            cursor: pointer;
-        }
-
-        /* Base properties for the layers */
-        .layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        /* 1. Main Pocket / Base */
-        .envelope-back {
-            background-image: url('envelope-back.PNG'); /* Match your exact spelling/case */
-            z-index: 10;
-        }
-
-        /* 2. The Flap */
-        .envelope-flap {
-            background-image: url('envelope-flap.PNG'); /* Match your exact spelling/case */
-            z-index: 30;
-            transform-origin: top center;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* 3. The Gold Wax Seal */
-        .wax-seal {
-            background-image: url('wax-seal.PNG'); /* Match your exact spelling/case */
-            z-index: 40;
-            width: 25%;
-            height: 25%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        /* --- THE ANIMATION STATES --- */
-
-        /* State when open: The flap flips up and back by 180 degrees */
-        .envelope.open .envelope-flap {
-            transform: rotateX(180deg);
-            z-index: 5; /* Moves it behind the pocket once fully flipped back */
-        }
-
-        /* State when open: The seal breaks, scales down slightly, and fades out */
-        .envelope.open .wax-seal {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
-            pointer-events: none; /* Prevents double clicking */
-        }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #4A0E17; }
+        /* This magic frame completely hides the top 50px Wix ad banner */
+        iframe { width: 100%; height: calc(100% + 50px); margin-top: -50px; border: none; }
     </style>
 </head>
 <body>
-
-    <div class="wrapper">
-        <div class="envelope" id="weddingEnvelope" onclick="openEnvelope()">
-            <div class="layer envelope-back"></div>
-            <div class="layer envelope-flap"></div>
-            <div class="layer wax-seal"></div>
-        </div>
-    </div>
-
-    <script>
-        function openEnvelope() {
-            const envelope = document.getElementById('weddingEnvelope');
-            envelope.classList.add('open');
-        }
-    </script>
-
+    <iframe src="https://jahsdesign9.wixsite.com/my-site-10"></iframe>
 </body>
 </html>
