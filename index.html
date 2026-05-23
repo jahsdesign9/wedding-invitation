@@ -11,24 +11,108 @@
     <meta property="og:type" content="website" />
 
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: transparent; }
+        /* Reset and canvas setup */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* This hides the top 50px banner and stretches the site to compensate */
-        iframe { 
+        /* Using a solid maroon canvas color until you add your background video */
+        body, html { 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: #4A0E17; 
+            font-family: sans-serif; 
+        }
+
+        /* Container that centers the envelope on any screen size */
+        .wrapper {
             position: absolute;
             top: 0;
             left: 0;
-            width: calc(100% + 2px); /* Stretches it just a tiny bit past the screen edge to completely bury the white line */
-            height: calc(100% + 50px); 
-            margin-top: -50px; 
-            border: none; 
-            background-color: transparent; 
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px; /* Gives the flap flip a beautiful 3D depth effect */
+        }
+
+        /* The Envelope Container */
+        .envelope {
+            position: relative;
+            width: 85vw;
+            max-width: 400px;
+            aspect-ratio: 1 / 1; /* Keeps it perfectly square like your assets */
+            cursor: pointer;
+        }
+
+        /* Base properties for the layers */
+        .layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* 1. Main Pocket / Base */
+        .envelope-back {
+            background-image: url('envelope-back.png');
+            z-index: 10;
+        }
+
+        /* 2. The Flap (Hinges and flips upward) */
+        .envelope-flap {
+            background-image: url('envelope-flap.png');
+            z-index: 30;
+            transform-origin: top center; /* Forces the flap to hinge right from the top edge */
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Premium 3D unfolding curve */
+        }
+
+        /* 3. The Gold Wax Seal */
+        .wax-seal {
+            background-image: url('wax-seal.png');
+            z-index: 40;
+            width: 25%; /* Scales your seal relative to your envelope size */
+            height: 25%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1); /* Keeps it dead center over the flap tip */
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        /* --- THE ANIMATION STATES --- */
+
+        /* State when open: The flap flips up and back by 180 degrees */
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 5; /* Moves it behind the pocket once fully flipped back */
+        }
+
+        /* State when open: The seal breaks, scales down slightly, and fades out */
+        .envelope.open .wax-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            pointer-events: none; /* Prevents double clicking */
         }
     </style>
 </head>
 <body>
 
-    <iframe src="https://jahsdesign9.wixsite.com/my-site-10"></iframe>
+    <div class="wrapper">
+        <div class="envelope" id="weddingEnvelope" onclick="openEnvelope()">
+            <div class="layer envelope-back"></div>
+            <div class="layer envelope-flap"></div>
+            <div class="layer wax-seal"></div>
+        </div>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            const envelope = document.getElementById('weddingEnvelope');
+            envelope.classList.add('open');
+        }
+    </script>
 
 </body>
 </html>
