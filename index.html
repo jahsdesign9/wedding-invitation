@@ -12,11 +12,20 @@
 
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: transparent; }
-        /* This makes the frame transparent so your Wix site shows right through it */
-        iframe { width: 100%; height: 100%; border: none; background-color: transparent; }
+        
+        /* This hides the top 50px banner and stretches the site to compensate */
+        iframe { 
+            width: 100%; 
+            height: calc(100% + 50px); 
+            margin-top: -50px; 
+            border: none; 
+            background-color: transparent; 
+        }
     </style>
 </head>
 <body>
-    <iframe src="https://jahsdesign9.wixsite.com/my-site-10?showMobileView=true"></iframe>
+
+    <iframe src="https://jahsdesign9.wixsite.com/my-site-10"></iframe>
+
 </body>
 </html>
