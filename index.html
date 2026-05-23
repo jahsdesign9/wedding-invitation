@@ -35,11 +35,11 @@
             perspective: 1200px; /* Enhanced depth perspective for a bigger envelope */
         }
 
-        /* The Envelope Container - MADE BIGGER HERE */
+        /* The Envelope Container */
         .envelope {
             position: relative;
-            width: 96vw; /* Increased from 85vw to fill almost edge-to-edge on phones */
-            max-width: 500px; /* Increased max-width from 400px so it's larger on tablet/desktop */
+            width: 96vw; /* Fills almost edge-to-edge on phones */
+            max-width: 500px; /* Larger on tablet/desktop */
             aspect-ratio: 1 / 1; /* Keeps it square */
             cursor: pointer;
         }
@@ -68,15 +68,15 @@
             transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Premium unfolding curve */
         }
 
-        /* 3. The Gold Wax Seal */
+        /* 3. The Gold Wax Seal - SHIFTED DOWN TO THE FLAP TIP HERE */
         .wax-seal {
             background-image: url('wax-seal.png');
             z-index: 40;
             width: 25%; /* Automatically sizes the seal relative to your envelope */
             height: 25%;
-            top: 50%;
+            top: 61%; /* Shifted down from 50% to align perfectly with the bottom point of the flap */
             left: 50%;
-            transform: translate(-50%, -50%) scale(1); /* Holds it dead center over the flap point */
+            transform: translate(-50%, -50%) scale(1);
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
