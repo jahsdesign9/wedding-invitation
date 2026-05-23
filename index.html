@@ -15,7 +15,10 @@
         
         /* This hides the top 50px banner and stretches the site to compensate */
         iframe { 
-            width: 100%; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(100% + 2px); /* Stretches it just a tiny bit past the screen edge to completely bury the white line */
             height: calc(100% + 50px); 
             margin-top: -50px; 
             border: none; 
